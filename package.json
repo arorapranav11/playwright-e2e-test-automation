@@ -1,15 +1,25 @@
 {
-  "name": "booking-search-automation",
+  "name": "playwright-e2e-test-automation",
   "version": "1.0.0",
-  "description": "Playwright automation for booking.com search, filter, and results scenarios",
-  "main": "index.js",
+  "description": "Playwright and TypeScript portfolio covering Booking.com search, filters, and DOM-based rating analysis",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arorapranav11/playwright-e2e-test-automation.git"
+  },
+  "engines": { "node": ">=24" },
   "scripts": {
     "test": "playwright test",
     "test:headed": "playwright test --headed",
+    "test:chromium": "playwright test --project=chromium",
+    "test:firefox": "playwright test --project=firefox",
+    "test:webkit": "playwright test --project=webkit",
+    "test:framework": "playwright test tests/framework",
+    "report": "playwright show-report reports/html-report",
     "typecheck": "tsc --noEmit"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["playwright", "typescript", "e2e-testing", "test-automation", "page-object-model"],
+  "author": "Pranav Arora",
   "license": "ISC",
   "type": "commonjs",
   "devDependencies": {

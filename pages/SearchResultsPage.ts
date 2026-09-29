@@ -38,7 +38,7 @@ export class SearchResultsPage {
   async clickShowResults(): Promise<void> {
     // Desktop layout applies filters live with no submit step; a "Show
     // results" button only appears on narrower/mobile-style filter drawers.
-    if (await this.showResultsButton.isVisible().catch(() => false)) {
+    if (await this.showResultsButton.isVisible()) {
       await this.showResultsButton.click();
     }
     await this.propertyCards.first().waitFor({ state: 'visible' });
@@ -59,7 +59,7 @@ export class SearchResultsPage {
       // concatenate the score and review count together).
       const match = (scoreText ?? '').match(/\d+(\.\d+)?/);
       const rating = match ? parseFloat(match[0]) : NaN;
-      if (!Number.isNaN(rating) && nameText) {
+      if (Number.isFinite(rating) && rating > 0 && rating <= 10 && nameText?.trim()) {
         results.push({ name: nameText.trim(), rating });
       }
     }
@@ -68,6 +68,9 @@ export class SearchResultsPage {
 
   async findLowestRatedProperty(): Promise<{ name: string; rating: number }> {
     const ratings = await this.getPropertyRatings();
+    if (ratings.length === 0) {
+      throw new Error('No rated properties found in the currently loaded results. Check result availability, review-score selectors, and locale.');
+    }
     return ratings.reduce((lowest, current) => (current.rating < lowest.rating ? current : lowest));
   }
 
